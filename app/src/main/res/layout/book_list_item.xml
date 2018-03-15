@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="Book" type="com.example.android.project6.Book"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:minHeight="88dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="72dp"
+            android:text="@{Book.bookTitle}"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/author_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/title_text_view"
+            android:layout_below="@+id/title_text_view"
+            android:layout_marginEnd="72dp"
+            android:text="@{Book.bookAuthor}"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:contentDescription="@string/info_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/title_text_view"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_info" />
+
+    </RelativeLayout>
+
+</layout>

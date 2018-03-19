@@ -1,6 +1,5 @@
 package com.example.android.project6;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,22 +18,29 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>{
+public class ListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    /**Valor constante para o ID do loader de book.*/
+    /**
+     * Strings para levar os elementos para o list intent
+     */
+    static final String URL_STRING = "URLString";
+    static final String LIST_SIZE = "ListSize";
+    /**
+     * Valor constante para o ID do loader de book.
+     */
     private static final int BOOK_LOADER_ID = 1;
-
-    /** Adapter da lista de earthquakes */
+    /**
+     * Adapter da lista de earthquakes
+     */
     private BookArrayAdapter adapter;
-
-    /** TextView que é mostrada quando a lista encontra um erro */
+    /**
+     * TextView que é mostrada quando a lista encontra um erro
+     */
     private TextView errorStateTextView;
-
-    /** ProgressBar que é mostrada enquanto a conexão é realizada*/
+    /**
+     * ProgressBar que é mostrada enquanto a conexão é realizada
+     */
     private ProgressBar loadingBar;
-
-//    // The callbacks through which we will interact with the LoaderManager.
-//    private LoaderManager.LoaderCallbacks<Book> callbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         bookListView.setEmptyView(errorStateTextView);
 
         // Obtém uma referência ao ConectivityManager para testar a conexão
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService( Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
 
@@ -69,28 +74,28 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             // Inicializa o loader. Passa um ID constante int definido acima e passa nulo para
             // o bundle. Passa esta activity para o parâmetro LoaderCallbacks (que é válido
             // porque esta activity implementa a interface LoaderCallbacks).
-            loaderManager.initLoader(BOOK_LOADER_ID, args, this );
+            loaderManager.initLoader(BOOK_LOADER_ID, args, this);
         } else {
             // Caso não haja conexão, a mensagem de erro aparecerá
             loadingBar.setVisibility(View.GONE);
             errorStateTextView.setText(R.string.no_internet_connection);
         }
 
-        bookListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
-                Book thisBook = adapter.getItem( position );
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Book thisBook = adapter.getItem(position);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(thisBook.getBookURL()));
                 startActivity(browserIntent);
             }
-        } );
+        });
 
     }
 
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
-        String Url = bundle.getString( "URLString" );
-        int listSize = bundle.getInt( "ListSize" );
-        return new BookLoader(this, Url, listSize);
+        String url = bundle.getString(URL_STRING);
+        int listSize = bundle.getInt(LIST_SIZE);
+        return new BookLoader(this, url, listSize);
     }
 
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
@@ -100,7 +105,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         // Limpa o adapter de dados de earthquake anteriores
         adapter.clear();
 
-        loadingBar.setVisibility( View.GONE );
+        loadingBar.setVisibility(View.GONE);
 
         // Se há uma lista válida de {@link Book}s, então os adiciona ao data set do adapter.
         // Isto ativará a atualização da ListView.

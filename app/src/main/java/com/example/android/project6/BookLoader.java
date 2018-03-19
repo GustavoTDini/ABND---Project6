@@ -11,26 +11,36 @@ import java.util.List;
 
 public class BookLoader extends AsyncTaskLoader<List<Book>> {
 
-    /** URL da busca */
+    /**
+     * URL da busca
+     */
     private String mUrl;
 
-    /** int do tamanho da Lista */
+    /**
+     * int do tamanho da Lista
+     */
     private int mListSize;
 
-    /** Construtor do BookLoader */
+    /**
+     * Construtor do BookLoader
+     */
     public BookLoader(Context context, String url, int listSize) {
         super(context);
         mUrl = url;
         mListSize = listSize;
     }
 
-    /** Metodo que irá iniciar o load em segundo plano ao iniciar a activity */
+    /**
+     * Metodo que irá iniciar o load em segundo plano ao iniciar a activity
+     */
     @Override
     protected void onStartLoading() {
         forceLoad();
     }
 
-    /** Metodo que realizará a busca em segundo plano do metodo */
+    /**
+     * Metodo que realizará a busca em segundo plano do metodo
+     */
     @Override
     public List<Book> loadInBackground() {
         //Retorna Null se
@@ -39,7 +49,6 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
         }
 
         // Realiza requisição de rede, decodifica a resposta, e extrai uma lista de livros.
-        List<Book> books = BookUtilities.fetchBookData(mUrl,mListSize);
-        return books;
+        return BookUtilities.fetchBookData(mUrl, mListSize);
     }
 }

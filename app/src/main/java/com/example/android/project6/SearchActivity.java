@@ -1,10 +1,8 @@
 package com.example.android.project6;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,21 +12,32 @@ import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
 
-    /** Botão que irá chamar a lista */
-    Button searchButton;
-
-    /** EditText que contem o termo de Busca */
-    EditText searchText;
-
-    /** EditText que contem o tamanho da lista */
-    EditText listNumber;
-
-    /** Int Final com o tamanho maximo da lista*/
+    /**
+     * Int Final com o tamanho maximo da lista
+     */
     static final int MAX_LIST_SIZE = 40;
-
-    /** Strings Final para montar  a URL do API*/
+    /**
+     * Strings Final para montar  a URL do API
+     */
     static final String URL = "https://www.googleapis.com/books/v1/volumes?q={";
     static final String MAX_RESULTS = "}&maxResults=40";
+    /**
+     * Strings para levar os elementos para o list intent
+     */
+    static final String URL_STRING = "URLString";
+    static final String LIST_SIZE = "ListSize";
+    /**
+     * Botão que irá chamar a lista
+     */
+    Button searchButton;
+    /**
+     * EditText que contem o termo de Busca
+     */
+    EditText searchText;
+    /**
+     * EditText que contem o tamanho da lista
+     */
+    EditText listNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +59,26 @@ public class SearchActivity extends AppCompatActivity {
                 String searchterm = searchText.getText().toString();
 
                 // se não houver termo de busca criamos um toast para alertar o  usuário da falta do termo
-                if (searchterm.equals( "" )){
+                if (searchterm.equals("")) {
                     String toastText = getString(R.string.no_search_term_toast);
-                    Toast noSearchToast = Toast.makeText(getApplicationContext(),toastText, Toast.LENGTH_LONG);
+                    Toast noSearchToast = Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG);
                     noSearchToast.show();
-                } else{
+                } else {
                     //se estiver tudo certo ele cria um novo intent e passa a URL atraves de um extra
                     Intent bookListActivity = new Intent(getBaseContext(), ListActivity.class);
-                    String searchTopic = searchText.getText().toString();
-                    String URLFinal = URL + searchTopic + MAX_RESULTS;
-                    Log.i( "URL", "onClick: "+ URLFinal );
-                    bookListActivity.putExtra("URLString",URLFinal);
+                    String URLFinal = URL + searchterm + MAX_RESULTS;
+                    Log.i("URL", "onClick: " + URLFinal);
+                    bookListActivity.putExtra(URL_STRING, URLFinal);
 
                     // Define o valor do tamanho da lista em 40
                     int listSize = MAX_LIST_SIZE;
 
                     // define o tamanho da lista selecionada, se não tiver nada selecionado, intui que o usuario
                     // quer todos os livros e mantem o tamanho maxima da lista de 40
-                    if ( !(TextUtils.isEmpty( listNumber.getText().toString()))) {
-                        listSize = Integer.parseInt( listNumber.getText().toString() );
+                    if (!(TextUtils.isEmpty(listNumber.getText().toString()))) {
+                        listSize = Integer.parseInt(listNumber.getText().toString());
                     }
-                    bookListActivity.putExtra("ListSize", listSize);
+                    bookListActivity.putExtra(LIST_SIZE, listSize);
                     startActivity(bookListActivity);
                 }
             }

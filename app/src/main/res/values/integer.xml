@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="set_read_timeout">10000</integer>
+    <integer name="set_connect_timeout">15000</integer>
+    <integer name="url_connection_get_response_code">200</integer>
+</resources>

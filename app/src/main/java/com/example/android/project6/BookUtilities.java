@@ -24,8 +24,10 @@ import java.util.List;
 
 final class BookUtilities {
 
-    /** Tag for the log messages */
-    private static final String LOG_TAG = ListActivity.class.getSimpleName();
+    /**
+     * Tag for the log messages
+     */
+    private static final String LOG_TAG = BookUtilities.class.getSimpleName();
 
     public BookUtilities() {
     }
@@ -50,7 +52,7 @@ final class BookUtilities {
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
-        if (url == null){
+        if (url == null) {
             return jsonResponse;
         }
 
@@ -59,15 +61,15 @@ final class BookUtilities {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(R.integer.set_read_timeout /* milliseconds */);
+            urlConnection.setConnectTimeout(R.integer.set_connect_timeout /* milliseconds */);
             urlConnection.connect();
 
-            if (urlConnection.getResponseCode() == 200){
+            if (urlConnection.getResponseCode() == R.integer.url_connection_get_response_code) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
-            } else{
-                Log.e( LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+            } else {
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
 
         } catch (IOException e) {
@@ -107,11 +109,11 @@ final class BookUtilities {
      */
     private static List<Book> extractFeatureFromJson(String bookJson, int selectedListSize) {
 
-        if (TextUtils.isEmpty(bookJson)){
+        if (TextUtils.isEmpty(bookJson)) {
             return null;
         }
 
-        Log.i( "TAG", "extractFeatureFromJson: " + selectedListSize );
+        Log.i("TAG", "extractFeatureFromJson: " + selectedListSize);
 
         // Cria uma nova lista vazia aonde iremos colocar os Livros obtidos pelo JSON
         List<Book> books = new ArrayList<>();
@@ -127,27 +129,30 @@ final class BookUtilities {
             int listSize = bookItemsArray.length();
 
             //define o tamanho da lista de acordo com a opção no inicio e com o total de
-            if (listSize > selectedListSize){
+            if (listSize > selectedListSize) {
                 listSize = selectedListSize;
             }
 
-            Log.i( "TAGAfter", "extractFeatureFromJson: " + listSize );
+            Log.i("TAGAfter", "extractFeatureFromJson: " + listSize);
 
-            for (int bookIndex = 0; bookIndex < listSize; bookIndex ++){
+            for (int bookIndex = 0; bookIndex < listSize; bookIndex++) {
 
                 JSONObject thisBookItem = bookItemsArray.getJSONObject(bookIndex);
-                JSONObject thisBookVolumeInfo= thisBookItem.getJSONObject( "volumeInfo");
+                JSONObject thisBookVolumeInfo = thisBookItem.getJSONObject("volumeInfo");
 
-                String bookTitle = thisBookVolumeInfo.getString("title");
+                String bookTitle = thisBookVolumeInfo.optString("title");
                 JSONArray authors = thisBookVolumeInfo.getJSONArray("authors");
                 String bookAuthor = "";
-                for(int authorIndex = 0; authorIndex < authors.length(); authorIndex ++) {
-                    bookAuthor += authors.getString(authorIndex) + " ";
+                for (int authorIndex = 0; authorIndex < authors.length(); authorIndex++) {
+                    if (authorIndex != authors.length()){
+                        bookAuthor = bookAuthor + authors.optString(authorIndex) + ", ";
+                    }
+                    bookAuthor = bookAuthor + authors.optString(authorIndex);
                 }
 
-                String url = thisBookVolumeInfo.getString( "infoLink" );
+                String url = thisBookVolumeInfo.optString("infoLink");
 
-                books.add( new Book( bookTitle, bookAuthor , url));
+                books.add(new Book(bookTitle, bookAuthor, url));
             }
 
         } catch (JSONException e) {
@@ -160,9 +165,9 @@ final class BookUtilities {
         return books;
     }
 
-    static List<Book> fetchBookData(String requestURL, int listSize){
+    static List<Book> fetchBookData(String requestURL, int listSize) {
 
-        URL urlRequest = createUrl(  requestURL);
+        URL urlRequest = createUrl(requestURL);
 
         String jsonResponse = null;
         try {
@@ -171,8 +176,8 @@ final class BookUtilities {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        Log.i( "JSon", "fetchBookData: "  + extractFeatureFromJson( jsonResponse , listSize));
+        Log.i("JSon", "fetchBookData: " + extractFeatureFromJson(jsonResponse, listSize));
 
-        return extractFeatureFromJson( jsonResponse, listSize);
+        return extractFeatureFromJson(jsonResponse, listSize);
     }
 }

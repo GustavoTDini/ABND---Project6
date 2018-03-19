@@ -1,21 +1,31 @@
 package com.example.android.project6;
 
+import java.util.List;
+
 /**
  * Created by ssjdini on 3/13/18.
  */
 
 public class Book {
 
-    /** String que contem o Título do Livro*/
-    String mBookTitle;
+    /**
+     * String que contem o Título do Livro
+     */
+    private String mBookTitle;
 
-    /** String que contem o Autor do Livro*/
-    String mBookAuthor;
+    /**
+     * String que contem o Autor do Livro
+     */
+    private String mBookAuthor;
 
-    /** String que contem o URL para informações sobre o Livro*/
-    String mBookURL;
+    /**
+     * String que contem o URL para informações sobre o Livro
+     */
+    private String mBookURL;
 
-    /** Contrutor da Classe Book*/
+    /**
+     * Contrutor da Classe Book
+     */
     public Book(String bookTitle, String bookAuthor, String bookURL) {
         this.mBookTitle = bookTitle;
         this.mBookAuthor = bookAuthor;

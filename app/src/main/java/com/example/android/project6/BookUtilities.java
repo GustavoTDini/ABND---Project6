@@ -24,6 +24,12 @@ import java.util.List;
 
 final class BookUtilities {
 
+    private static final int URL_CONNECTION_GET_RESPONSE_CODE = 200;
+
+    private static final int SET_READ_TIMEOUT_IN_MILISSECONDS = 10000;
+
+    private static final int SET_CONNECT_TIMEOUT_IN_MILISSECONDS = 15000;
+
     /**
      * Tag for the log messages
      */
@@ -56,16 +62,18 @@ final class BookUtilities {
             return jsonResponse;
         }
 
+
+
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(R.integer.set_read_timeout /* milliseconds */);
-            urlConnection.setConnectTimeout(R.integer.set_connect_timeout /* milliseconds */);
+            urlConnection.setReadTimeout(SET_READ_TIMEOUT_IN_MILISSECONDS);
+            urlConnection.setConnectTimeout(SET_CONNECT_TIMEOUT_IN_MILISSECONDS);
             urlConnection.connect();
 
-            if (urlConnection.getResponseCode() == R.integer.url_connection_get_response_code) {
+            if (urlConnection.getResponseCode() == URL_CONNECTION_GET_RESPONSE_CODE) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -142,17 +150,19 @@ final class BookUtilities {
 
                 String bookTitle = thisBookVolumeInfo.optString("title");
                 JSONArray authors = thisBookVolumeInfo.getJSONArray("authors");
-                String bookAuthor = "";
+
+                // Inicialmente recupero os dados dos autores em uma List de Strings
+                List<String> bookAuthor = new ArrayList<>();
                 for (int authorIndex = 0; authorIndex < authors.length(); authorIndex++) {
-                    if (authorIndex != authors.length()){
-                        bookAuthor = bookAuthor + authors.optString(authorIndex) + ", ";
-                    }
-                    bookAuthor = bookAuthor + authors.optString(authorIndex);
+                    bookAuthor.add(authors.optString(authorIndex));
                 }
+
+                // Uso o TextUtils.join para concatenar a lista em uma unica String
+                String bookAuthorList = TextUtils.join(", ", bookAuthor);
 
                 String url = thisBookVolumeInfo.optString("infoLink");
 
-                books.add(new Book(bookTitle, bookAuthor, url));
+                books.add(new Book(bookTitle, bookAuthorList, url));
             }
 
         } catch (JSONException e) {

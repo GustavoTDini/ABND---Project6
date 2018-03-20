@@ -22,6 +22,7 @@ import java.util.List;
  * Created by ssjdini on 3/13/18.
  */
 
+@SuppressWarnings("ALL")
 final class BookUtilities {
 
     private static final int URL_CONNECTION_GET_RESPONSE_CODE = 200;

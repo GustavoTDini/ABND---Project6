@@ -15,29 +15,29 @@ public class SearchActivity extends AppCompatActivity {
     /**
      * Int Final com o tamanho maximo da lista
      */
-    static final int MAX_LIST_SIZE = 40;
+    private static final int MAX_LIST_SIZE = 40;
     /**
      * Strings Final para montar  a URL do API
      */
-    static final String URL = "https://www.googleapis.com/books/v1/volumes?q={";
-    static final String MAX_RESULTS = "}&maxResults=40";
+    private static final String URL = "https://www.googleapis.com/books/v1/volumes?q={";
+    private static final String MAX_RESULTS = "}&maxResults=40";
     /**
      * Strings para levar os elementos para o list intent
      */
-    static final String URL_STRING = "URLString";
-    static final String LIST_SIZE = "ListSize";
+    private static final String URL_STRING = "URLString";
+    private static final String LIST_SIZE = "ListSize";
     /**
      * Botão que irá chamar a lista
      */
-    Button searchButton;
+    private Button searchButton;
     /**
      * EditText que contem o termo de Busca
      */
-    EditText searchText;
+    private EditText searchText;
     /**
      * EditText que contem o tamanho da lista
      */
-    EditText listNumber;
+    private EditText listNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +49,9 @@ public class SearchActivity extends AppCompatActivity {
         searchText = findViewById(R.id.search_text);
         listNumber = findViewById(R.id.list_size);
 
-        /** clickListener que define a ação do botão de busca, caso o editText de busca esteja vazio ele cria um Toast alertando
-         * mas se tiver um termo de busca, ele abre umn intent, e manda a URL já modificada para criar a lista de livros
-         * se não for escolhido o tamanho da lista, o máxima de 40 será fixad*/
+        /* clickListener que define a ação do botão de busca, caso o editText de busca esteja vazio ele cria um Toast alertando
+          mas se tiver um termo de busca, ele abre umn intent, e manda a URL já modificada para criar a lista de livros
+          se não for escolhido o tamanho da lista, o máxima de 40 será fixad*/
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

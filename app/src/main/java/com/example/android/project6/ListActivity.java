@@ -23,8 +23,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * Strings para levar os elementos para o list intent
      */
-    static final String URL_STRING = "URLString";
-    static final String LIST_SIZE = "ListSize";
+    private static final String URL_STRING = "URLString";
+    private static final String LIST_SIZE = "ListSize";
     /**
      * Valor constante para o ID do loader de book.
      */
@@ -85,6 +85,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Book thisBook = adapter.getItem(position);
+                assert thisBook != null;
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(thisBook.getBookURL()));
                 startActivity(browserIntent);
             }

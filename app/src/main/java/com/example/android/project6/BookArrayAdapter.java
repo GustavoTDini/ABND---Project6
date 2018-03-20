@@ -1,5 +1,6 @@
 package com.example.android.project6;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  * Created by ssjdini on 3/13/18.
  */
 
+@SuppressWarnings("ALL")
 public class BookArrayAdapter extends ArrayAdapter<Book> {
 
     public BookArrayAdapter(Activity context, ArrayList<Book> books) {

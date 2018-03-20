@@ -9,6 +9,7 @@ import java.util.List;
  * Created by ssjdini on 3/13/18.
  */
 
+@SuppressWarnings("ALL")
 public class BookLoader extends AsyncTaskLoader<List<Book>> {
 
     /**

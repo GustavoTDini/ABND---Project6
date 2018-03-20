@@ -1,11 +1,10 @@
 package com.example.android.project6;
 
-import java.util.List;
-
 /**
  * Created by ssjdini on 3/13/18.
  */
 
+@SuppressWarnings("ALL")
 public class Book {
 
     /**
